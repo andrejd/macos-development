@@ -1,2 +1,2 @@
 # macos-development
-Guides for developing stuff on macOs
+Guides for developing stuff on macOS
