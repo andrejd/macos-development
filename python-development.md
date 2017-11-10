@@ -1,9 +1,9 @@
-### Python development on macOS High Sierra
+## Python development on macOS High Sierra
 
 
 > macOS High Sierra already comes with Python 2.7 pre-installed and can be used as it is. If you need to use latest version of Python3, you need to install it.
 
-####  Python3 installation
+###  _Homebrew_ installation
 
 While macOS comes with a large number of UNIX utilities, those familiar with Linux systems will notice one key component missing, a package manager. `Homebrew` fills this void.
 
@@ -18,7 +18,7 @@ The script will explain what changes it will make and prompt you before the inst
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 ```
 
-##### Homebrew-Cheatsheet
+#### Homebrew-Cheatsheet
 Cheatsheet for Homebrew
 
 | Commands                  | Output |
@@ -34,7 +34,7 @@ Cheatsheet for Homebrew
 | brew outdated	            | What’s due for upgrades?|
 | brew doctor               | check brew health|
 
-#### Prerequisites
+### Xcode Command Line Tools Installation
 
 Xcode and Xcode Command Line Tools needs to be installed to use Python packages. The Command Line Tools Package is a small self-contained package available for download 
 separately from Xcode and that allows you to do command line development in macOS. It consists of the macOS SDK and command-line tools such as Clang (C compiler), which are installed in the /Library/Developer/CommandLineTools directory.
@@ -45,11 +45,11 @@ $ xcode-select --install
 ```
 This should trigger a pop-up window that will ask you to install the Command Line Tools.
 
-#### Virtual environments
+### Virtual environments
 
 Python virtual environments, managed by `venv`, are set up for installing packages and running programs in a way that isolates them from other packages installed on the rest of the system. Because each environment has its own interpreter executable and directory for installing packages, it is easy to create environments configured with various combinations of Python and package versions all on the same computer.
 
-1. Creating Environments
+#### Creating Environments
 
 The primary command line interface to venv relies on Python’s ability to run a “main” function in a module using the -m option.
 ```bash
@@ -76,7 +76,7 @@ You don’t specifically need to activate an environment; activation just prepen
 
 You can deactivate a virtual environment by typing `deactivate` in your shell. The exact mechanism is platform-specific: for example, the Bash activation script defines a “deactivate” function.
 
-#### Python instalation
+### Python instalation
 
 Now, we can install Python 3:
 
