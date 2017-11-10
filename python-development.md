@@ -18,12 +18,21 @@ The script will explain what changes it will make and prompt you before the inst
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 ```
 
-Now, we can install Python 3:
+##### Homebrew-Cheatsheet
+Cheatsheet for Homebrew
 
-```bash
-$ brew install python3
-```
-This will take a minute or two. After that you are ready to go.
+| Commands                  | Output |
+| -----------               | ----------- |
+| brew list --versions 	    | List installed packages|
+| brew search _package_     | Search for a package|
+| brew install _package_    | Install a package |
+| brew upgrade _package_	| Upgrade a package|
+| brew info _package_	    | List versions, caveats, etc|
+| brew home _package_	    | Open homepage|
+| brew cleanup _package_	| Remove old versions|
+| brew update	            | Update brew |
+| brew outdated	            | What’s due for upgrades?|
+| brew doctor               | check brew health|
 
 #### Prerequisites
 
@@ -66,6 +75,15 @@ $ source <venv>/bin/activate
 You don’t specifically need to activate an environment; activation just prepends the virtual environment’s binary directory to your path, so that “python” invokes the virtual environment’s Python interpreter and you can run installed scripts without having to use their full path. However, all scripts installed in a virtual environment should be runnable without activating it, and run with the virtual environment’s Python automatically.
 
 You can deactivate a virtual environment by typing `deactivate` in your shell. The exact mechanism is platform-specific: for example, the Bash activation script defines a “deactivate” function.
+
+#### Python instalation
+
+Now, we can install Python 3:
+
+```bash
+$ brew install python3
+```
+This will take a minute or two. After that you are ready to go.
 
 
 
