@@ -18,8 +18,9 @@ The script will explain what changes it will make and prompt you before the inst
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 ```
 
-#### Homebrew-Cheatsheet
-Cheatsheet for Homebrew
+#### Homebrew cheatsheet
+
+Homebrew help is accessible trough `brew -h`, here are some most usefull commands
 
 | Commands                  | Output |
 | -----------               | ----------- |
