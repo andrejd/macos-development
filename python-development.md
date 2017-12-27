@@ -77,6 +77,17 @@ You don’t specifically need to activate an environment; activation just prepen
 
 You can deactivate a virtual environment by typing `deactivate` in your shell. The exact mechanism is platform-specific: for example, the Bash activation script defines a “deactivate” function.
 
+3. Save installed packages for later use
+
+Save current environment for later setup, do this after installanig new python package
+
+```bash
+# save project requrements to file fol later use
+$ env1/bin/pip freeze > requirements.txt
+# install project requirements in new virtual env
+$ env2/bin/pip install -r requirements.txt
+```
+
 ### Python instalation
 
 Now, we can install Python 3:
