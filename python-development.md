@@ -56,7 +56,8 @@ The primary command line interface to venv relies on Python’s ability to run a
 ```bash
 $ python3 -m venv /tmp/demoenv
 ```
-Contents of a Virtual Environment
+
+1. Contents of a Virtual Environment
 
 Each virtual environment contains a bin directory, where the local interpreter and any executable scripts are installed, an include directory for files related to building C extensions, and a lib directory, with a separate site-packages location for installing packages.
 
