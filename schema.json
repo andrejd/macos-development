@@ -11,50 +11,55 @@
             "description": "Array of layers",
             "type": "array",
             "items": {
-                "$ref": "#/definitions/layer/definitions/layer"
+                "$ref": "#/definitions/layer"
             }
         },
         "scenarios": {
+            "description": "List of different animation scenarios",
             "type": "array",
             "items": {
-                "$ref": "#/definitions/animations/definitions/scenario"
+                "$ref": "#/definitions/scenario"
             }
         },
         "a-transforms": {
+            "description": "Different a-transforms with arbitrary names",
             "type": "object",
+            "additionalProperties": false,
             "patternProperties": {
                 "^.*$": {
-                    "$ref": "#/definitions/a-transform/definitions/a-transform"
+                    "$ref": "#/definitions/a-transform"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "font-instances": {
+            "description": "Fonts used in the system",
             "type": "object",
+            "additionalProperties": false,
             "patternProperties": {
                 "^.*$": {
-                    "$ref": "#/definitions/fonts/definitions/font-instance"
+                    "$ref": "#/definitions/font"
                 }
-            },
-            "additionalProperties": false
+            }
         },
         "global-font-instances": {
             "description": "this is not supposed to be defined by user!",
             "type": "array",
             "items": {
-                "$ref": "#/definitions/fonts/definitions/font-instance"
+                "$ref": "#/definitions/font"
             }
         },
         "atlases": {
+            "description": "Atlases for different languages and game variations",
             "type": "array",
             "items": {
-                "$ref": "#/definitions/fonts/definitions/atlas"
+                "$ref": "#/definitions/atlas"
             }
         },
         "textures": {
+            "description": "Textures used in game",
             "type": "array",
             "items": {
-                "$ref": "#/definitions/texture/definitions/texture"
+                "$ref": "#/definitions/texture"
             }
         },
         "languages": {
@@ -68,1130 +73,1090 @@
     "definitions": {
         "entity": {
             "shortName": "entity",
-            "definitions": {
-                "children": {
-                    "description": "Child entity",
-                    "type": "array",
-                    "minItems": 1,
-                    "items": {
-                        "$ref": "#/definitions/entity/definitions/entity"
-                    }
-                },
-                "entity": {
-                    "anyOf": [
-                        {
-                            "type": "object",
-                            "description": "Group",
-                            "required": [
-                                "type"
-                            ],
-                            "additionalProperties": false,
-                            "properties": {
-                                "id": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "group"
-                                    ]
-                                },
-                                "entity-id": {
-                                    "type": "integer"
-                                },
-                                "parent-id": {
-                                    "type": "integer"
-                                },
-                                "children-ids": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "children": {
-                                    "type": "array",
-                                    "minItems": 1,
-                                    "items": {
-                                        "$ref": "#/definitions/entity/definitions/entity"
-                                    }
-                                },
-                                "constants": {
-                                    "type": "object"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "description": "Image entity",
-                            "additionalProperties": false,
-                            "required": [
-                                "type",
-                                "src",
-                                "atlas"
-                            ],
-                            "properties": {
-                                "id": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "image"
-                                    ]
-                                },
-                                "src": {
-                                    "type": "string"
-                                },
-                                "src-root": {
-                                    "type": "string"
-                                },
-                                "atlas": {
-                                    "type": "string"
-                                },
-                                "entity-id": {
-                                    "type": "integer"
-                                },
-                                "parent-id": {
-                                    "type": "integer"
-                                },
-                                "children-ids": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "src-translations": {
-                                    "type": "object",
-                                    "properties": {
-                                        "^.*$": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "children": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/entity/definitions/entity"
-                                        }
-                                    }
-                                },
-                                "constants": {
-                                    "type": "object"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "description": "Label",
-                            "additionalProperties": false,
-                            "required": [
-                                "type"
-                            ],
-                            "properties": {
-                                "id": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "label"
-                                    ]
-                                },
-                                "entity-id": {
-                                    "type": "integer"
-                                },
-                                "parent-id": {
-                                    "description": "Should not be set by the user",
-                                    "type": "integer"
-                                },
-                                "children-ids": {
-                                    "description": "Should not be set by the user",
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "translation": {
-                                    "type": "string"
-                                },
-                                "scaling": {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string",
-                                        "enum": [
-                                            "upscale",
-                                            "downscale",
-                                            "scale-to-fit"
-                                        ]
-                                    }
-                                },
-                                "position": {
-                                    "type": "array",
-                                    "items": {
-                                        "oneOf": [
-                                            {
-                                                "type": "number",
-                                                "maxItems": 3
-                                            },
-                                            {
-                                                "type": "string",
-                                                "maxItems": 3
-                                            }
-                                        ]
-                                    },
-                                    "children": {
-                                        "type": "array",
-                                        "minItems": 1,
-                                        "items": {
-                                            "$ref": "#/definitions/entity/definitions/entity"
-                                        }
-                                    }
-                                },
-                                "constants": {
-                                    "type": "object"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "description": "Iterator entity",
-                            "additionalProperties": false,
-                            "required": [
-                                "end",
-                                "template",
-                                "type"
-                            ],
-                            "properties": {
-                                "entity-id": {
-                                    "description": "Should not be set by the user",
-                                    "type": "integer"
-                                },
-                                "parent-id": {
-                                    "description": "Should not be set by the user",
-                                    "type": "integer"
-                                },
-                                "children-ids": {
-                                    "description": "Should not be set by the user",
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "start": {
-                                    "type": "number"
-                                },
-                                "end": {
-                                    "type": "number"
-                                },
-                                "index-name": {
-                                    "type": "string"
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "iterator"
-                                    ]
-                                },
-                                "template": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/definitions/entity/definitions/entity"
-                                    }
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "description": "Componet entity",
-                            "additionalProperties": false,
-                            "required": [
-                                "type"
-                            ],
-                            "properties": {
-                                "id": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                },
-                                "entity-id": {
-                                    "description": "Should not be set by the user",
-                                    "type": "integer"
-                                },
-                                "parent-id": {
-                                    "description": "Should not be set by the user",
-                                    "type": "integer"
-                                },
-                                "children-ids": {
-                                    "description": "Should not be set by the user",
-                                    "type": "array",
-                                    "items": {
-                                        "type": "integer"
-                                    }
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "component"
-                                    ]
-                                },
-                                "component-type": {
-                                    "type": "string"
-                                },
-                                "children": {
-                                    "type": "array",
-                                    "minItems": 1,
-                                    "items": {
-                                        "$ref": "#/definitions/entity/definitions/entity"
-                                    }
-                                },
-                                "constants": {
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        "layer": {
-            "shortName": "layer",
-            "layer": {
-                "description": "Container for entites, children ...",
-                "type": "object",
-                "required": [
-                    "name",
-                    "type"
-                ],
-                "additionalProperties": false,
-                "properties": {
-                    "name": {
-                        "description": "Layer name",
-                        "type": "string"
-                    },
-                    "type": {
-                        "description": "Layer type: 'ui' or 'perspective'",
-                        "type": "string",
-                        "enum": [
-                            "ui",
-                            "perspective"
-                        ]
-                    },
-                    "children": {
-                        "description": "Layers children",
-                        "$ref": "#/definitions/entity/definitions/entity"
-                    },
-                    "children-ids": {
-                        "description": "Integer list of children ids defined in 'children' property",
-                        "type": "array",
-                        "items": {
-                            "type": "integer"
-                        }
-                    },
-                    "entities": {
-                        "description": "List of entities",
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/definitions/entity/definitions/entity"
-                        }
-                    }
-                }
-            }
-        },
-        "format": {
-            "shortName": "format",
-            "definitions": {
-                "transform-shema": {
-                    "description": "transform",
+            "anyOf": [
+                {
                     "type": "object",
+                    "description": "Group",
+                    "required": [
+                        "type"
+                    ],
                     "additionalProperties": false,
                     "properties": {
-                        "position": {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "properties": {
-                                "x": {
-                                    "type": "string"
-                                },
-                                "y": {
-                                    "type": "string"
-                                },
-                                "z": {
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                },
-                "color-format": {
-                    "description": "specification for color format for a-transforms and fonts it is either\nhexcolor, or array of integers [0, 255], or array of floats [0.0, 1.0] one\nshould never mix types in a single array - this will not pass the\nvalidation using this schema (intentionally) this is illegal -> [155, 255,\n255, 0.1]\n",
-                    "anyOf": [
-                        {
-                            "type": "string",
-                            "description": "Primer #fff",
-                            "pattern": "^#[0-9a-fA-F]+",
-                            "maxLength": 4,
-                            "minLength": 4
-                        },
-                        {
-                            "type": "string",
-                            "description": "Primer  #fa0957",
-                            "pattern": "^#[0-9a-fA-F]+",
-                            "maxLength": 7,
-                            "minLength": 7
-                        },
-                        {
-                            "type": "string",
-                            "description": "Primer  #fa095799",
-                            "pattern": "^#[0-9a-fA-F]+",
-                            "maxLength": 9,
-                            "minLength": 9
-                        },
-                        {
-                            "type": "number",
-                            "minimum": 0,
-                            "maximum": 1
-                        },
-                        {
-                            "type": "integer",
-                            "minimum": 0,
-                            "maximum": 255
-                        },
-                        {
-                            "type": "array",
-                            "minItems": 3,
-                            "maxItems": 4,
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "type": "array",
-                            "minItems": 3,
-                            "maxItems": 4,
-                            "items": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "integer",
-                                        "minimum": 0,
-                                        "maximum": 255
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "type": "array",
-                            "minItems": 3,
-                            "maxItems": 4,
-                            "items": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "number",
-                                        "minimum": 0,
-                                        "maximum": 1
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "type": "number",
-                            "maximum": 1,
-                            "minimum": 0
-                        }
-                    ]
-                },
-                "alpha-format": {
-                    "description": "format specification for alpha value in a-transforms\nit can either be a number between 0 and 1 or a string containing number\nfrom 0 to 1\n",
-                    "anyOf": [
-                        {
+                        "id": {
                             "type": "string"
-                        },
-                        {
-                            "type": "number",
-                            "minimum": 0,
-                            "maximum": 1
-                        },
-                        {
-                            "type": "integer",
-                            "enum": [
-                                0,
-                                1
-                            ]
-                        }
-                    ]
-                },
-                "scale-format": {
-                    "description": "format specification for scale value in a-transforms\nit can either be a number, a string, an array of strings or an array of\nintegers\nif array of strings is given, validators (not yaml schema) will check if\nthe string values are legal\nthere are no restrictions on values given\n",
-                    "oneOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "array",
-                            "minLength": 3,
-                            "maxLength": 3,
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "type": "array",
-                            "minLength": 3,
-                            "maxLength": 3,
-                            "items": {
-                                "type": "number"
-                            }
-                        }
-                    ]
-                },
-                "translate-linear-format": {
-                    "description": "format specification for linear translation in a-transform\nit can either be a number, a string, an array of strings or an array of\nnumbers\n",
-                    "oneOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "array",
-                            "minLength": 3,
-                            "maxLength": 3,
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "type": "array",
-                            "minLength": 3,
-                            "maxLength": 3,
-                            "items": {
-                                "type": "number"
-                            }
-                        }
-                    ]
-                },
-                "translate-bezier-format": {
-                    "oneOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "number"
-                        },
-                        {
-                            "type": "array",
-                            "minLength": 3,
-                            "maxLength": 3,
-                            "items": {
-                                "type": "string"
-                            }
-                        },
-                        {
-                            "type": "array",
-                            "minLength": 3,
-                            "maxLength": 3,
-                            "items": {
-                                "type": "number"
-                            }
-                        }
-                    ]
-                },
-                "rotate-format": {
-                    "oneOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "number",
-                            "minimum": 0,
-                            "maximum": 360
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "number",
-                                "minimum": 0,
-                                "maximum": 360
-                            }
-                        },
-                        {
-                            "type": "array",
-                            "items": {
-                                "type": "string"
-                            }
-                        }
-                    ]
-                }
-            }
-        },
-        "a-transform": {
-            "shortName": "a-transform",
-            "definitions": {
-                "a-transform": {
-                    "oneOf": [
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "begin",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "absolute"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "alpha"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/alpha-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/alpha-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "to-absolute-from-current"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "alpha"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/alpha-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/alpha-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "begin",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "absolute"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "scale"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/scale-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/scale-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "to-absolute-from-current"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "scale"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/scale-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/scale-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "begin",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "absolute"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "color"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/color-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/color-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "to-absolute-from-current"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "color"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/color-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/color-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "begin",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "absolute"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "translate-linear"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/translate-linear-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/translate-linear-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "to-absolute-from-current"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "translate-linear"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/translate-linear-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/translate-linear-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "begin",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "absolute"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "translate-bezier"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "begin-control": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "end-control": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "mid-control": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "control": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "end"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "to-absolute-from-current"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "translate-bezier"
-                                    ]
-                                },
-                                "begin": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "end": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "begin-control": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "end-control": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "mid-control": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                },
-                                "control": {
-                                    "$ref": "#/definitions/format/definitions/translate-bezier-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "object",
-                            "additionalProperties": false,
-                            "required": [
-                                "class",
-                                "type",
-                                "rotate"
-                            ],
-                            "properties": {
-                                "class": {
-                                    "type": "string",
-                                    "enum": [
-                                        "absolute",
-                                        "to-absolute-from-current"
-                                    ]
-                                },
-                                "type": {
-                                    "type": "string",
-                                    "enum": [
-                                        "rotate"
-                                    ]
-                                },
-                                "rotate": {
-                                    "$ref": "#/definitions/format/definitions/rotate-format"
-                                }
-                            }
-                        },
-                        {
-                            "type": "string"
-                        }
-                    ]
-                }
-            }
-        },
-        "animations": {
-            "shortName": "animations",
-            "definitions": {
-                "timing": {
-                    "anyOf": [
-                        {
-                            "type": "string"
-                        },
-                        {
-                            "type": "number"
-                        }
-                    ]
-                },
-                "animation": {
-                    "description": "Animation object",
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "start": {
-                            "$ref": "#/definitions/animations/definitions/timing"
-                        },
-                        "stop": {
-                            "$ref": "#/definitions/animations/definitions/timing"
-                        },
-                        "delay": {
-                            "$ref": "#/definitions/animations/definitions/timing"
-                        },
-                        "duration": {
-                            "$ref": "#/definitions/animations/definitions/timing"
-                        },
-                        "a-transform": {
-                            "$ref": "#/definitions/a-transform/definitions/a-transform"
-                        }
-                    }
-                },
-                "scenario": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "scenario-guid": {
-                            "description": "Scenario-guid should not be set by the user",
-                            "type": "integer"
                         },
                         "name": {
                             "type": "string"
                         },
-                        "tag": {
-                            "oneOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "array",
-                                    "items": {
-                                        "type": "string"
-                                    }
-                                }
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "group"
                             ]
                         },
-                        "start": {
-                            "$ref": "#/definitions/animations/definitions/timing"
+                        "entity-id": {
+                            "type": "integer"
                         },
-                        "stop": {
-                            "$ref": "#/definitions/animations/definitions/timing"
+                        "parent-id": {
+                            "type": "integer"
                         },
-                        "delay": {
-                            "$ref": "#/definitions/animations/definitions/timing"
-                        },
-                        "duration": {
-                            "$ref\"": "animations#/definitions/timing"
-                        },
-                        "tracks": {
+                        "children-ids": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/animations/definitions/animation"
+                                "type": "integer"
+                            }
+                        },
+                        "children": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "$ref": "#/definitions/entity"
+                            }
+                        },
+                        "constants": {
+                            "type": "object"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "description": "Image entity",
+                    "additionalProperties": false,
+                    "required": [
+                        "type",
+                        "src",
+                        "atlas"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "image"
+                            ]
+                        },
+                        "src": {
+                            "type": "string"
+                        },
+                        "src-root": {
+                            "type": "string"
+                        },
+                        "atlas": {
+                            "type": "string"
+                        },
+                        "entity-id": {
+                            "type": "integer"
+                        },
+                        "parent-id": {
+                            "type": "integer"
+                        },
+                        "children-ids": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        },
+                        "src-translations": {
+                            "type": "object",
+                            "properties": {
+                                "^.*$": {
+                                    "type": "string"
+                                }
+                            },
+                            "children": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                    "$ref": "#/definitions/entity"
+                                }
+                            }
+                        },
+                        "constants": {
+                            "type": "object"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "description": "Label",
+                    "additionalProperties": false,
+                    "required": [
+                        "type"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "label"
+                            ]
+                        },
+                        "entity-id": {
+                            "type": "integer"
+                        },
+                        "parent-id": {
+                            "description": "Should not be set by the user",
+                            "type": "integer"
+                        },
+                        "children-ids": {
+                            "description": "Should not be set by the user",
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        },
+                        "translation": {
+                            "type": "string"
+                        },
+                        "scaling": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "upscale",
+                                    "downscale",
+                                    "scale-to-fit"
+                                ]
+                            }
+                        },
+                        "position": {
+                            "type": "array",
+                            "items": {
+                                "oneOf": [
+                                    {
+                                        "type": "number",
+                                        "maxItems": 3
+                                    },
+                                    {
+                                        "type": "string",
+                                        "maxItems": 3
+                                    }
+                                ]
+                            },
+                            "children": {
+                                "type": "array",
+                                "minItems": 1,
+                                "items": {
+                                    "$ref": "#/definitions/entity"
+                                }
+                            }
+                        },
+                        "constants": {
+                            "type": "object"
+                        }
+                    }
+                },
+                {
+                    "type": "object",
+                    "description": "Iterator entity",
+                    "additionalProperties": false,
+                    "required": [
+                        "end",
+                        "template",
+                        "type"
+                    ],
+                    "properties": {
+                        "entity-id": {
+                            "description": "Should not be set by the user",
+                            "type": "integer"
+                        },
+                        "parent-id": {
+                            "description": "Should not be set by the user",
+                            "type": "integer"
+                        },
+                        "children-ids": {
+                            "description": "Should not be set by the user",
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        },
+                        "start": {
+                            "type": "number"
+                        },
+                        "end": {
+                            "type": "number"
+                        },
+                        "index-name": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "iterator"
+                            ]
+                        },
+                        "template": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity"
                             }
                         }
+                    }
+                },
+                {
+                    "type": "object",
+                    "description": "Componet entity",
+                    "additionalProperties": false,
+                    "required": [
+                        "type"
+                    ],
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "entity-id": {
+                            "description": "Should not be set by the user",
+                            "type": "integer"
+                        },
+                        "parent-id": {
+                            "description": "Should not be set by the user",
+                            "type": "integer"
+                        },
+                        "children-ids": {
+                            "description": "Should not be set by the user",
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "component"
+                            ]
+                        },
+                        "component-type": {
+                            "type": "string"
+                        },
+                        "children": {
+                            "type": "array",
+                            "minItems": 1,
+                            "items": {
+                                "$ref": "#/definitions/entity"
+                            }
+                        },
+                        "constants": {
+                            "type": "object"
+                        }
+                    }
+                }
+            ]
+        },
+        "layer": {
+            "shortName": "layer",
+            "description": "Container for entites, children ...",
+            "type": "object",
+            "required": [
+                "name",
+                "type"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "description": "Layer name",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "Layer type: 'ui' or 'perspective'",
+                    "type": "string",
+                    "enum": [
+                        "ui",
+                        "perspective"
+                    ]
+                },
+                "children": {
+                    "description": "Layer's child entities",
+                    "$ref": "#/definitions/entity"
+                },
+                "children-ids": {
+                    "description": "Integer list of children ids defined in 'children' property",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "entities": {
+                    "description": "List of entities",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity"
                     }
                 }
             }
         },
-        "fonts": {
-            "shortName": "fonts",
-            "definitions": {
-                "font-instance": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "font-instance-guid": {
+        "timing": {
+            "shortName": "timing",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number"
+                }
+            ]
+        },
+        "format-alpha": {
+            "shortName": "format-alpha",
+            "description": "format specification for alpha value in a-transforms\nit can either be a number between 0 and 1 or a string containing number\nfrom 0 to 1\n",
+            "anyOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                {
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        "format-scale": {
+            "shortName": "format-scale",
+            "description": "format specification for scale value in a-transforms\nit can either be a number, a string, an array of strings or an array of\nintegers\nif array of strings is given, validators (not yaml schema) will check if\nthe string values are legal\nthere are no restrictions on values given\n",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "array",
+                    "minLength": 3,
+                    "maxLength": 3,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "type": "array",
+                    "minLength": 3,
+                    "maxLength": 3,
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            ]
+        },
+        "format-color": {
+            "shortName": "format-color",
+            "description": "specification for color format for a-transforms and fonts it is either\nhexcolor, or array of integers [0, 255], or array of floats [0.0, 1.0] one\nshould never mix types in a single array - this will not pass the\nvalidation using this schema (intentionally) this is illegal -> [155, 255,\n255, 0.1]\n",
+            "anyOf": [
+                {
+                    "type": "string",
+                    "description": "Primer #fff",
+                    "pattern": "^#[0-9a-fA-F]+",
+                    "maxLength": 4,
+                    "minLength": 4
+                },
+                {
+                    "type": "string",
+                    "description": "Primer  #fa0957",
+                    "pattern": "^#[0-9a-fA-F]+",
+                    "maxLength": 7,
+                    "minLength": 7
+                },
+                {
+                    "type": "string",
+                    "description": "Primer  #fa095799",
+                    "pattern": "^#[0-9a-fA-F]+",
+                    "maxLength": 9,
+                    "minLength": 9
+                },
+                {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                },
+                {
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 4,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 4,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 255
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "array",
+                    "minItems": 3,
+                    "maxItems": 4,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        ]
+                    }
+                },
+                {
+                    "type": "number",
+                    "maximum": 1,
+                    "minimum": 0
+                }
+            ]
+        },
+        "format-translate-linear": {
+            "shortName": "format-translate-linear",
+            "description": "format specification for linear translation in a-transform\nit can either be a number, a string, an array of strings or an array of\nnumbers\n",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "array",
+                    "minLength": 3,
+                    "maxLength": 3,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "type": "array",
+                    "minLength": 3,
+                    "maxLength": 3,
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            ]
+        },
+        "format-translate-bezier": {
+            "shortName": "format-translate-bezier",
+            "description": "Bezier translation",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "array",
+                    "minLength": 3,
+                    "maxLength": 3,
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "type": "array",
+                    "minLength": 3,
+                    "maxLength": 3,
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            ]
+        },
+        "format-rotate": {
+            "shortName": "format-rotate",
+            "description": "Definition for rotation",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 360
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 360
+                    }
+                },
+                {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            ]
+        },
+        "a-transform": {
+            "shortName": "a-transform",
+            "description": "A-transform is a name encapsulating transforms of multiple types\nalpha, scale, color, translate-linear, translate-bezier, rotate. \n",
+            "a-transform": {
+                "oneOf": [
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "begin",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "absolute"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "alpha"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-alpha"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-alpha"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "to-absolute-from-current"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "alpha"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-alpha"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-alpha"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "begin",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "absolute"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "scale"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-scale"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-scale"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "to-absolute-from-current"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "scale"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-scale"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-scale"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "begin",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "absolute"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "color"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-color"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-color"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "to-absolute-from-current"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "color"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-color"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-color"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "begin",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "absolute"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "translate-linear"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-translate-linear"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-translate-linear"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "to-absolute-from-current"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "translate-linear"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-translate-linear"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-translate-linear"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "begin",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "absolute"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "translate-bezier"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "begin-control": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "end-control": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "mid-control": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "control": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "end"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "to-absolute-from-current"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "translate-bezier"
+                                ]
+                            },
+                            "begin": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "end": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "begin-control": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "end-control": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "mid-control": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            },
+                            "control": {
+                                "$ref": "#/definitions/format-translate-bezier"
+                            }
+                        }
+                    },
+                    {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                            "class",
+                            "type",
+                            "rotate"
+                        ],
+                        "properties": {
+                            "class": {
+                                "type": "string",
+                                "enum": [
+                                    "absolute",
+                                    "to-absolute-from-current"
+                                ]
+                            },
+                            "type": {
+                                "type": "string",
+                                "enum": [
+                                    "rotate"
+                                ]
+                            },
+                            "rotate": {
+                                "$ref": "#/definitions/format-rotate"
+                            }
+                        }
+                    },
+                    {
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "animation": {
+            "shortName": "animation",
+            "description": "Animation object",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "start": {
+                    "$ref": "#/definitions/timing"
+                },
+                "stop": {
+                    "$ref": "#/definitions/timing"
+                },
+                "delay": {
+                    "$ref": "#/definitions/timing"
+                },
+                "duration": {
+                    "$ref": "#/definitions/timing"
+                },
+                "a-transform": {
+                    "$ref": "#/definitions/a-transform"
+                }
+            }
+        },
+        "scenario": {
+            "shortName": "scenario",
+            "description": "Scenario definition",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "scenario-guid": {
+                    "description": "Scenario-guid should not be set by the user",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "tag": {
+                    "oneOf": [
+                        {
                             "type": "string"
                         },
-                        "font-family": {
-                            "type": "string"
-                        },
-                        "font-size": {
-                            "oneOf": [
-                                {
-                                    "type": "number"
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ]
-                        },
-                        "scalable-font-sizes": {
+                        {
                             "type": "array",
                             "items": {
-                                "type": "integer",
-                                "minimum": 0
+                                "type": "string"
                             }
-                        },
-                        "color": {
-                            "$ref": "#/definitions/format/definitions/color-format"
-                        },
-                        "letter-spacing": {
-                            "oneOf": [
-                                {
-                                    "type": "number"
-                                },
-                                {
-                                    "type": "string"
-                                }
-                            ]
                         }
+                    ]
+                },
+                "start": {
+                    "$ref": "#/definitions/timing"
+                },
+                "stop": {
+                    "$ref": "#/definitions/timing"
+                },
+                "delay": {
+                    "$ref": "#/definitions/timing"
+                },
+                "duration": {
+                    "$ref": "#/definitions/timing"
+                },
+                "tracks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/animation"
                     }
+                }
+            }
+        },
+        "font": {
+            "shortName": "font",
+            "description": "Font object for font properties",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "font-instance-guid": {
+                    "type": "string"
+                },
+                "font-family": {
+                    "type": "string"
+                },
+                "font-size": {
+                    "oneOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                },
+                "scalable-font-sizes": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "minimum": 0
+                    }
+                },
+                "color": {
+                    "$ref": "#/definitions/format-color"
+                },
+                "letter-spacing": {
+                    "oneOf": [
+                        {
+                            "type": "number"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ]
+                }
+            }
+        },
+        "atlas": {
+            "shortName": "atlas",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "load": {
+                    "type": "string",
+                    "enum": [
+                        "on-demand",
+                        "on-start"
+                    ]
+                },
+                "type": {
+                    "description": "single-instance-minmap -> generiraj minmap za vse texture v tem atlasu\nper-language -> vsak jezik bo imel svoj atlas\nsingle-instance -> vsi prevodi so shranjeni v enem atlasu\n",
+                    "type": "string",
+                    "enum": [
+                        "single-instance",
+                        "per-language",
+                        "single-instance-minmap"
+                    ]
                 }
             }
         },
         "texture": {
             "shortName": "texture",
-            "definitions": {
-                "texture": {
+            "description": "Texture definition",
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "texture-guid": {
+                    "description": "texture-guid should not be set by the user",
+                    "type": "number"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "default": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
-                        "texture-guid": {
-                            "description": "texture-guid should not be set by the user",
-                            "type": "number"
-                        },
-                        "name": {
+                        "src": {
                             "type": "string"
-                        },
-                        "default": {
-                            "type": "object",
-                            "properties": {
-                                "src": {
-                                    "type": "string"
-                                }
-                            }
-                        },
-                        "atlas": {
-                            "type": "string"
-                        },
-                        "languages": {
-                            "type": "array",
-                            "items": {
-                                "type": "object",
-                                "properties": {
-                                    "lang": {
-                                        "type": "string"
-                                    },
-                                    "src": {
-                                        "type": "string"
-                                    }
-                                }
-                            }
                         }
                     }
                 },
                 "atlas": {
-                    "type": "object",
-                    "additionalProperties": false,
-                    "properties": {
-                        "name": {
-                            "type": "string"
-                        },
-                        "load": {
-                            "type": "string",
-                            "enum": [
-                                "on-demand",
-                                "on-start"
-                            ]
-                        },
-                        "type": {
-                            "description": "single-instance-minmap -> generiraj minmap za vse texture v tem atlasu\nper-language -> vsak jezik bo imel svoj atlas\nsingle-instance -> vsi prevodi so shranjeni v enem atlasu\n",
-                            "type": "string",
-                            "enum": [
-                                "single-instance",
-                                "per-language",
-                                "single-instance-minmap"
-                            ]
+                    "type": "string"
+                },
+                "languages": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "lang": {
+                                "type": "string"
+                            },
+                            "src": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
